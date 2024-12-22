@@ -775,11 +775,12 @@ namespace SYAMFP
 
 		/**
 		 * @brief parse and compile formula
+		 * @param formula compiled formula
 		 * @return `int` `0`:Success, `negative`:Error
 		 */
-		int parse(void)
+		int parse(const std::string& formula)
 		{
-			auto rpn = Details::make_rpn<Type>(this->formula);
+			auto rpn = Details::make_rpn<Type>(formula);
 			if (rpn == Details::BAD_RPNs<Type>) {
 				return -EINVAL;
 			}
@@ -787,21 +788,11 @@ namespace SYAMFP
 			try {
 				auto crpn = Details::compile_RPN<Type>(rpn, vars);
 				this->crpn = crpn;
+				this->formula = formula;
 				return 0;
 			} catch (const std::exception& e) {
 				return -EINVAL;
 			}
-		}
-
-		/**
-		 * @brief parse and compile formula
-		 * @param formula compiled formula
-		 * @return `int` `0`:Success, `negative`:Error
-		 */
-		int parse(const std::string& formula)
-		{
-			this->formula = formula;
-			return parse();
 		}
 
 		/**
@@ -812,9 +803,8 @@ namespace SYAMFP
 		 */
 		int parse(const std::string& formula, const VariableTable<Type>& table)
 		{
-			this->formula = formula;
-			this->table   = table;
-			return parse();
+			this->table = table;
+			return parse(formula);
 		}
 
 		/** @brief register variable table */
