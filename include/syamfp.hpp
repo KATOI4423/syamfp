@@ -576,6 +576,9 @@ namespace SYAMFP
 
 			/* Push the remaining operators in thg stacks */
 			while (!stack.empty()) {
+				if (has_LParen<Type>(stack)) {
+					return BAD_RPNs<Type>;
+				}
 				rpn.emplace_back(stack.back());
 				stack.pop_back();
 			}
