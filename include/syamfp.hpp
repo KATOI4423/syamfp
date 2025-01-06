@@ -289,13 +289,13 @@ namespace SYAMFP
 
 		inline bool is_real(const std::string& token)
 		{
-			static const std::regex Real(R"(^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$)");
+			static const std::regex Real(R"(^[+-]?\d+(\.\d*)?([eE][+-]?\d+)?$)");
 			return std::regex_match(token, Real);
 		}
 
 		inline bool is_imaginary(const std::string& token)
 		{
-			static const std::regex Imag(R"(^[+-]?\d*(\.\d+)?([eE][+-]?\d+)?i$)");
+			static const std::regex Imag(R"(^[+-]?\d*(\.\d*)?([eE][+-]?\d+)?i$)");
 			return std::regex_match(token, Imag);
 		}
 
